@@ -35,6 +35,7 @@ def convert_to_js_database(file_path):
         '网名': 'nickname',
         '真实姓名': 'realname',
         '头像位置': 'avatarUrl',
+        '分科': 'subject',
         '序号': 'ID' 
     }, inplace=True)
     
@@ -43,11 +44,11 @@ def convert_to_js_database(file_path):
         df = df.drop(columns=['ID'])
 
     # 2. 验证关键列是否存在
-    required_cols = ['nickname', 'realname', 'avatarUrl']
+    required_cols = ['nickname', 'realname', 'avatarUrl', 'subject']
     if not all(col in df.columns for col in required_cols):
         print("\n--- 错误提示 ---")
         print("表格中缺少关键列。请确保表格包含以下三列：")
-        print("'网名', '真实姓名', '头像位置'")
+        print("'网名', '真实姓名', '头像位置', '分科'")
         print(f"脚本检测到的列名是: {list(df.columns)}")
         return
 
@@ -62,9 +63,10 @@ def convert_to_js_database(file_path):
         nickname = str(item.get('nickname', '')).replace('"', '\\"')
         realname = str(item.get('realname', '')).replace('"', '\\"')
         avatarUrl = str(item.get('avatarUrl', '')).replace('"', '\\"')
+        subject = str(item.get('subject', '')).replace('"', '\\"')
         
         # 格式化为JavaScript对象格式
-        js_output += f"    {{ nickname: \"{nickname}\", realname: \"{realname}\", avatarUrl: \"{avatarUrl}\" }},\n"
+        js_output += f"    {{ nickname: \"{nickname}\", realname: \"{realname}\", avatarUrl: \"{avatarUrl}\", subject: \"{subject}\"}},\n"
 
     js_output += "];\n"
     
